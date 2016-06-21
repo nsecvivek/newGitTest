@@ -1,0 +1,70 @@
+
+public class knapsackClass {
+	
+	static int bottomUpDP(int[] val, int[] weight, int totalweight){
+		int noOfweight = weight.length;
+		int[] valN = new int[totalweight+1];
+		int[] weightN = new int[totalweight+1];
+		int valueArray[][] = new int[totalweight+1][totalweight+1];
+		for(int i=0;i<noOfweight+1;i++){
+			if(i==0){
+				valN[i] = 0;
+				weightN[i] = 0;
+			}
+			else{
+				valN[i] = val[i-1];
+				weightN[i] = weight[i-1];
+			}
+	    	}
+		
+	    for(int i=0;i<noOfweight+1;i++){
+	    	for(int j=0;j<totalweight+1;j++){
+	    		if(j==0 || i ==0){
+	    			valueArray[i][j] = 0;
+	    		}
+	    		else{
+	    			if(weightN[i]>j){
+	    				if(valN[i]>valueArray[i][j]){
+	    					valueArray[i][j] = valueArray[i-1][j];
+	    				}
+	    			}
+	    			else{
+	    				//int temp = j-weightN[i];
+	    				if(valN[i] + valueArray[i-1][j-weightN[i]]>valueArray[i-1][j]){
+	    					valueArray[i][j] = valN[i] + valueArray[i-1][j-weightN[i]];
+	    				}
+	    				else{
+	    					valueArray[i][j] = valueArray[i-1][j];
+	    				}
+	    			}
+	    		}
+	    	}
+	    }
+	    for(int i=0;i<noOfweight+1;i++){
+	    	for(int j=0;j<totalweight+1;j++){
+	    		System.out.print(valueArray[i][j]);
+	    		System.out.print(" ");
+	    	}
+	    	System.out.println("");
+	    	
+	    	}
+	    //System.out.println(valueArray[4][7]);
+	    
+		return valueArray[noOfweight][totalweight];
+	}
+
+	public static void main(String[] args) { 
+		// TODO Auto-generated method stub
+		knapsackClass k = new knapsackClass();
+        int val[] = {18, 20, 15, 30, 24, 54, 21, 32, 25, 22};
+        int wt[] = {8, 2, 3, 5, 5, 6, 9, 7, 10, 4};
+        int r = k.bottomUpDP(val, wt, 30);
+		//int val[] = {1, 4, 5, 7};
+        //int wt[] = {1, 3, 4, 5};
+        //int r = k.bottomUpDP(val, wt, 7);
+        //int r1 = k.topDownRecursive(val, wt, 30);
+        System.out.println(r);
+        //System.out.println(r1);
+	}
+
+}
